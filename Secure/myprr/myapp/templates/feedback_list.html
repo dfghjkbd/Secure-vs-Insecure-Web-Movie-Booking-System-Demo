@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Feedback | MovieVerse</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: url('https://images.unsplash.com/photo-1607799279861-8e6e4e0d83aa') no-repeat center center fixed;
+            background-size: cover;
+            color: #fff;
+        }
+
+        .overlay {
+            background-color: rgba(0, 0, 0, 0.8);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 48px;
+            color: #ffcccb;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 10px #000;
+        }
+
+        .logout {
+            text-align: right;
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+
+        .logout span {
+            color: #fff;
+        }
+
+        .feedback-card {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px auto;
+            width: 80%;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+        }
+
+        .feedback-card p {
+            margin: 8px 0;
+            font-size: 16px;
+        }
+
+        .feedback-card strong {
+            color: #ffd700;
+        }
+
+        .timestamp {
+            color: #ccc;
+            font-size: 0.9em;
+        }
+
+        p.no-feedback {
+            text-align: center;
+            font-size: 18px;
+            margin-top: 40px;
+            color: #ccc;
+        }
+    </style>
+</head>
+<body>
+    <div class="overlay">
+        <div class="logout">
+            <span>Welcome, <strong>{{ request.session.username }}</strong></span>
+        </div>
+
+        <h1>📝 All Feedback</h1>
+
+        {% if feedbacks %}
+            {% for fb in feedbacks %}
+                <div class="feedback-card">
+                    <p><strong>{{ fb.username }}</strong></p>
+                    <p>{{ fb.message  }}</p>
+                    <p class="timestamp">Submitted at: {{ fb.submitted_at|date:"Y-m-d H:i" }}</p>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p class="no-feedback">No feedback submitted yet.</p>
+        {% endif %}
+    </div>
+</body>
+</html>
+

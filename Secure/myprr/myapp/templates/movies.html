@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Available Movies | MovieVerse</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: url('https://images.unsplash.com/photo-1607799279861-8e6e4e0d83aa') no-repeat center center fixed;
+            background-size: cover;
+            color: #fff;
+        }
+
+        .overlay {
+            background-color: rgba(0, 0, 0, 0.8);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 48px;
+            color: #ffcccb;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 10px #000;
+        }
+
+        .logout {
+            text-align: right;
+            margin-bottom: 20px;
+            font-size: 16px;
+            color: #fff;
+        }
+
+        .logout a {
+            color: #ff4b2b;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .messages {
+            width: 80%;
+            margin: 0 auto 20px auto;
+        }
+
+        .alert {
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .alert.success {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .alert.error {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .feedback-box {
+            width: 80%;
+            margin: 0 auto 40px auto;
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            backdrop-filter: blur(6px);
+        }
+
+        .feedback-box label,
+        .feedback-box textarea {
+            display: block;
+            width: 100%;
+            color: #fff;
+        }
+
+        .feedback-box textarea {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 10px;
+            font-size: 14px;
+            resize: vertical;
+            background-color: #333;
+            color: #fff;
+            border: 1px solid #777;
+        }
+
+        .feedback-box button {
+            margin-top: 15px;
+            background: linear-gradient(135deg, #ff416c, #ff4b2b);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 30px;
+            font-size: 15px;
+            cursor: pointer;
+        }
+
+        .movie {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px auto;
+            width: 80%;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+        }
+
+        .movie h3 {
+            margin-top: 0;
+            color: #ffd700;
+        }
+
+        .movie p {
+            margin: 8px 0;
+            font-size: 16px;
+        }
+
+        .movie input[type="number"] {
+            padding: 8px;
+            border-radius: 8px;
+            border: none;
+            width: 100px;
+            margin-right: 10px;
+        }
+
+        .movie button {
+            padding: 10px 16px;
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+
+        .movie button:hover {
+            background: linear-gradient(135deg, #0056b3, #003f7f);
+        }
+
+        p.no-movie {
+            text-align: center;
+            font-size: 18px;
+            margin-top: 40px;
+            color: #ccc;
+        }
+    </style>
+</head>
+<body>
+    <div class="overlay">
+        <div class="logout">
+            <span>Welcome, <strong>{{ request.session.username }}</strong></span>
+        </div>
+
+        {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+                <div class="alert {{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <div class="feedback-box">
+            <form method="post" action="{% url 'submit_feedback' %}">
+                {% csrf_token %}
+                <label for="feedback">We value your feedback:</label>
+                <textarea name="feedback" id="feedback" placeholder="Write your feedback here..." required></textarea>
+                <button type="submit">Submit Feedback</button>
+            </form>
+        </div>
+
+        <h1>🎬 Available Movies</h1>
+
+        {% for movie in movies %}
+        <div class="movie">
+            
+            <h3>{{ movie.1 }}</h3> <!-- Movie Name -->
+            <p><strong>Show Time:</strong> {{ movie.2 }}</p>
+            <p><strong>Remaining Seats:</strong> {{ movie.4 }}</p>
+            <p><strong>Price:</strong> ₹{{ movie.5 }}</p>
+
+            <form method="post" action="{% url 'book_movie' %}">
+                {% csrf_token %}
+                <input type="hidden" name="movie_id" value="{{ movie.0 }}">
+                <label>Number of Seats:</label>
+                <input type="number" name="seats" placeholder="Seats to book" min="1" max="{{ movie.4 }}" required>
+                <button type="submit">Book Now</button>
+            </form>
+        </div>
+        {% empty %}
+        <p class="no-movie">No movies available at the moment.</p>
+        {% endfor %}
+    </div>
+</body>
+</html>

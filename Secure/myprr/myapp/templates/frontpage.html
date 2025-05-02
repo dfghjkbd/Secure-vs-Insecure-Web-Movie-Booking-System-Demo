@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MovieVerse | Book Tickets</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: url('https://images.unsplash.com/photo-1607799279861-8e6e4e0d83aa') no-repeat center center fixed;
+            background-size: cover;
+            color: #fff;
+        }
+
+        .overlay {
+            background-color: rgba(0, 0, 0, 0.7);
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            text-align: center;
+            padding: 30px;
+        }
+
+        h1 {
+            font-size: 60px;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 10px #000;
+        }
+
+        p {
+            font-size: 24px;
+            margin-bottom: 40px;
+            max-width: 600px;
+            text-shadow: 1px 1px 8px #000;
+        }
+
+        .btn {
+            display: inline-block;
+            margin: 15px;
+            padding: 16px 32px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #fff;
+            background: linear-gradient(135deg, #ff416c, #ff4b2b);
+            border: none;
+            border-radius: 50px;
+            text-decoration: none;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+        }
+
+        .btn:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 40px; }
+            p { font-size: 18px; }
+            .btn { font-size: 16px; padding: 12px 24px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="overlay">
+        <h1>🎬 Welcome to MovieVerse</h1>
+        <p>Your ultimate destination to explore, choose, and book tickets for your favorite movies hassle-free!</p>
+        <a href="{% url 'login' %}" class="btn">Login</a>
+        <a href="{% url 'signup' %}" class="btn">Sign Up</a>
+        <a href="{% url 'feedback' %}" class="btn">View Feedback</a>
+    </div>
+</body>
+</html>
+
